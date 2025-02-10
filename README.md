@@ -1,50 +1,69 @@
-# React + TypeScript + Vite
+# Instrucciones
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 1. Configuración del Entorno
 
-Currently, two official plugins are available:
+Antes de ejecutar el proyecto, copia el archivo `.env.example` y renómbralo a `.env`. Luego, edítalo y asegúrate de llenar la siguiente variable de entorno:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+VITE_FIREBASE_URL=
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Las demás variables ya están configuradas por defecto y no necesitan cambios.
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+## 2. Instalar Dependencias
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Este proyecto utiliza Bun como gestor de paquetes. Para instalar las dependencias, ejecuta:
+
+```sh
+bun install
+```
+
+## 3. Levantar el Proyecto con Docker
+
+Este proyecto utiliza Docker para su ejecución. Para levantar los contenedores, usa el siguiente comando:
+
+```sh
+docker compose up -d
+```
+
+Esto iniciará los servicios en segundo plano.
+
+## 4. Iniciar el Servidor de Desarrollo
+
+Para iniciar el entorno de desarrollo, usa el siguiente comando:
+
+```sh
+bun dev
+```
+
+## 5. Poblar la Base de Datos (Database SEED)
+
+Para llenar la base de datos con datos de prueba, usa el siguiente endpoint:
+
+```
+http://localhost:3000/api/seed
+```
+
+## 6. Acceder a la Documentación de la API
+
+Puedes revisar la documentación de los endpoints en:
+
+```
+http://localhost:3000/api
+```
+
+## 7. Credenciales de Prueba
+
+Puedes utilizar las siguientes credenciales para acceder a la aplicación:
+
+```json
+{
+    "email": "test1@google.com",
+    "password": "Abc123"
+}
+
+{
+    "email": "test2@google.com",
+    "password": "Abc123"
+}
 ```
