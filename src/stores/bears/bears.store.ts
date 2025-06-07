@@ -50,6 +50,7 @@ export const useBearStore = create<BearStore>()(
       totalBears: (): number => {
         return (
           get().numBlackBears() + get().numPolarBears() + get().numPandaBears()
+          // get().bears.length
         );
       },
     }),
