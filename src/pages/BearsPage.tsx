@@ -1,25 +1,9 @@
-import { useState } from 'react';
-import { useBearStore } from '@/stores/bears/bears.store';
 import { BearCounters } from '@/components/bears/BearCounters';
 import { BearActions } from '@/components/bears/BearActions';
-import { BearList } from '@/components/bears/BearList';
 import { BearTypeSelector } from '@/components/bears/BearTypeSelector';
-import type { BearType } from '@/interfaces/bears/bear.interface';
+import { BearList } from '@/components/bears/BearList';
 
 export function BearsPage() {
-  const bears = useBearStore((state) => state.bears);
-  const addBear = useBearStore((state) => state.addBear);
-  const doNothing = useBearStore((state) => state.doNothing);
-  const clearBears = useBearStore((state) => state.clearBears);
-
-  const [selectedType, setSelectedType] = useState<BearType>('black');
-
-  const bearCounts = {
-    black: bears.filter((bear) => bear.type === 'black').length,
-    polar: bears.filter((bear) => bear.type === 'polar').length,
-    panda: bears.filter((bear) => bear.type === 'panda').length,
-  };
-
   const bearTypes = [
     {
       type: 'black' as const,
@@ -41,15 +25,6 @@ export function BearsPage() {
     },
   ];
 
-  const onAddBear = () => {
-    const newBear = {
-      id: Date.now().toString(),
-      name: `Oso ${bearCounts[selectedType] + 1}`,
-      type: selectedType,
-    };
-    addBear(newBear);
-  };
-
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -63,7 +38,7 @@ export function BearsPage() {
         </p>
       </div>
 
-      <BearCounters bearTypes={bearTypes} bearCounts={bearCounts} />
+      <BearCounters bearTypes={bearTypes} />
 
       {/* Control Panel */}
       <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
@@ -72,23 +47,11 @@ export function BearsPage() {
           Panel de Control
         </h2>
 
-        <BearTypeSelector
-          bearTypes={bearTypes}
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-        />
+        <BearTypeSelector bearTypes={bearTypes} />
 
-        <BearActions
-          doNothing={doNothing}
-          onAddBear={onAddBear}
-          clearBears={clearBears}
-        />
+        <BearActions />
 
-        <BearList
-          bears={bears}
-          bearTypes={bearTypes}
-          selectedType={selectedType}
-        />
+        <BearList bearTypes={bearTypes} />
       </div>
     </div>
   );

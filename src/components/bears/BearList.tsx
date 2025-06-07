@@ -1,13 +1,17 @@
-import type { Bear, BearType } from '@/interfaces/bears/bear.interface';
+import { useBearStore } from '@/stores/bears/bears.store';
+import type { BearType } from '@/interfaces/bears/bear.interface';
+import { useShallow } from 'zustand/shallow';
 
 interface Props {
-  bears: Bear[];
   bearTypes: { type: BearType; name: string; icon: string }[];
-  selectedType: BearType;
 }
 
-export function BearList({ bears, bearTypes, selectedType }: Props) {
+export function BearList({ bearTypes }: Props) {
+  const bears = useBearStore(useShallow((state) => state.bears));
+  const selectedType = useBearStore((state) => state.selectedBearType);
+
   const filtered = bears.filter((bear) => bear.type === selectedType);
+
   if (filtered.length === 0) return null;
 
   const bearType = bearTypes.find((bt) => bt.type === selectedType);

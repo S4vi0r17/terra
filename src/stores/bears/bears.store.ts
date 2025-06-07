@@ -1,20 +1,20 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Bear } from '../../interfaces/bears/bear.interface';
+import type { Bear, BearType } from '@/interfaces/bears/bear.interface';
 
 interface BearStore {
-  numBlackBears: number;
-  numPolarBears: number;
-  numPandaBears: number;
-
   bears: Bear[];
 
-  // modifyBlackBears: (by: number) => void;
-  // modifyPolarBears: (by: number) => void;
-  // modifyPandaBears: (by: number) => void;
+  numBlackBears: () => number;
+  numPolarBears: () => number;
+  numPandaBears: () => number;
+
+  selectedBearType: BearType;
+  setSelectedBearType: (type: BearType) => void;
+
+  addBear: (type: BearType) => void;
 
   doNothing: () => void;
-  addBear: (type: Bear) => void;
   clearBears: () => void;
 
   totalBears: () => number;
@@ -23,36 +23,33 @@ interface BearStore {
 export const useBearStore = create<BearStore>()(
   persist(
     (set, get) => ({
-      numBlackBears: 10,
-      numPolarBears: 5,
-      numPandaBears: 1,
+      bears: [],
 
-      bears: [
-        { id: '1', name: 'Oso #1', type: 'black' },
-        { id: '2', name: 'Oso #2', type: 'polar' },
-        { id: '3', name: 'Oso #3', type: 'panda' },
-      ],
+      numBlackBears: () => get().bears.filter((b) => b.type === 'black').length,
+      numPolarBears: () => get().bears.filter((b) => b.type === 'polar').length,
+      numPandaBears: () => get().bears.filter((b) => b.type === 'panda').length,
 
-      // modifyBlackBears: (by: number) =>
-      //   set((state) => ({ numBlackBears: state.numBlackBears + by })),
-      // modifyPolarBears: (by: number) =>
-      //   set((state) => ({ polarBears: state.polarBears + by })),
-      // modifyPandaBears: (by: number) =>
-      //   set((state) => ({ pandaBears: state.pandaBears + by })),
+      selectedBearType: 'black',
+
+      setSelectedBearType: (type: BearType) =>
+        set(() => ({ selectedBearType: type })),
+
+      addBear: (type: BearType) =>
+        set((state) => {
+          const newBear: Bear = {
+            id: Date.now().toString(),
+            name: `Oso ${state.bears.length + 1}`,
+            type,
+          };
+          return { bears: [...state.bears, newBear] };
+        }),
 
       doNothing: () => set((state) => ({ bears: [...state.bears] })),
-      addBear: (bear: Bear) =>
-        set((state) => ({
-          bears: [...state.bears, bear],
-        })),
       clearBears: () => set({ bears: [] }),
 
       totalBears: (): number => {
         return (
-          get().numBlackBears +
-          get().numPolarBears +
-          get().numPandaBears +
-          get().bears.length
+          get().numBlackBears() + get().numPolarBears() + get().numPandaBears()
         );
       },
     }),

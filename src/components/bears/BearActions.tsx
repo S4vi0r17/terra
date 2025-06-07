@@ -1,10 +1,12 @@
-interface Props {
-  doNothing: () => void;
-  onAddBear: () => void;
-  clearBears: () => void;
-}
+import { useBearStore } from '@/stores/bears/bears.store';
 
-export const BearActions = ({ doNothing, onAddBear, clearBears }: Props) => {
+export const BearActions = () => {
+  const addBear = useBearStore((state) => state.addBear);
+  const doNothing = useBearStore((state) => state.doNothing);
+  const clearBears = useBearStore((state) => state.clearBears);
+
+  const selectedBearType = useBearStore((state) => state.selectedBearType);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
       <button
@@ -15,7 +17,7 @@ export const BearActions = ({ doNothing, onAddBear, clearBears }: Props) => {
         <span>No hacer nada</span>
       </button>
       <button
-        onClick={onAddBear}
+        onClick={() => addBear(selectedBearType)}
         className="flex items-center justify-center space-x-2 p-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 shadow-lg"
       >
         <span>➕</span>

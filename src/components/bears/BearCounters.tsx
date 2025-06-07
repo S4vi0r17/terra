@@ -1,9 +1,20 @@
+import { useShallow } from 'zustand/shallow';
+import type { BearType } from '@/interfaces/bears/bear.interface';
+import { useBearStore } from '@/stores/bears/bears.store';
+
 interface Props {
-  bearTypes: { type: string; name: string; icon: string; color: string }[];
-  bearCounts: Record<string, number>;
+  bearTypes: { type: BearType; name: string; icon: string; color: string }[];
 }
 
-export const BearCounters = ({ bearTypes, bearCounts }: Props) => {
+export const BearCounters = ({ bearTypes }: Props) => {
+  const bearCounts = useBearStore(
+    useShallow((state) => ({
+      black: state.bears.filter((b) => b.type === 'black').length,
+      polar: state.bears.filter((b) => b.type === 'polar').length,
+      panda: state.bears.filter((b) => b.type === 'panda').length,
+    }))
+  );
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       {bearTypes.map((bearType) => (
