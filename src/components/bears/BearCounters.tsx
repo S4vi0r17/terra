@@ -20,7 +20,7 @@ export const BearCounters = ({ bearTypes }: Props) => {
       {bearTypes.map((bearType) => (
         <div
           key={bearType.type}
-          className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm hover:shadow-md transition-shadow duration-200"
+          className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm hover:shadow-md transition-shadow duration-200 select-none"
         >
           <div className="flex items-center justify-between mb-4">
             <div

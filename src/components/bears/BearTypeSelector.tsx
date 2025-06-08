@@ -22,7 +22,7 @@ export const BearTypeSelector = ({ bearTypes }: Props) => {
             key={bearType.type}
             onClick={() => setSelectedBearType(bearType.type)}
             className={`
-              flex items-center space-x-3 p-4 rounded-xl border-2 transition-all duration-200
+              flex items-center space-x-3 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer
               ${
                 selectedBearType === bearType.type
                   ? 'border-amber-500 bg-amber-50'
