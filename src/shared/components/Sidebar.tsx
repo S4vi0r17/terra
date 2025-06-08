@@ -1,24 +1,19 @@
 import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router';
 
-interface Props {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-  onLogout: () => void;
-  user: {
-    fullName: string;
-    email: string;
-  };
-}
+export const Sidebar = () => {
+  const location = useLocation();
 
-export const Sidebar = ({ activeTab, setActiveTab, onLogout, user }: Props) => {
+  const user = { fullName: 'John Doe', email: 'asd@asd.com' };
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
-    { id: 'home', label: 'Inicio', icon: '🏠' },
-    { id: 'bears', label: 'Osos', icon: '🐻' },
-    { id: 'people', label: 'Personas', icon: '👥' },
-    { id: 'tasks', label: 'Tareas', icon: '✅' },
-    { id: 'wedding', label: 'Boda', icon: '💒' },
+    { id: '/dashboard/home', label: 'Inicio', icon: '🏠' },
+    { id: '/dashboard/bears', label: 'Osos', icon: '🐻' },
+    { id: '/dashboard/people', label: 'Personas', icon: '👥' },
+    { id: '/dashboard/tasks', label: 'Tareas', icon: '✅' },
+    { id: '/dashboard/wedding', label: 'Boda', icon: '💒' },
   ];
 
   return (
@@ -38,7 +33,7 @@ export const Sidebar = ({ activeTab, setActiveTab, onLogout, user }: Props) => {
       {/* Overlay for mobile */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="lg:hidden fixed inset-0 bg-black opacity-50 z-40"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -89,16 +84,16 @@ export const Sidebar = ({ activeTab, setActiveTab, onLogout, user }: Props) => {
           {/* Navigation */}
           <nav className="space-y-2">
             {menuItems.map((item) => (
-              <button
+              <NavLink
                 key={item.id}
+                to={item.id}
                 onClick={() => {
-                  setActiveTab(item.id);
                   setIsMobileMenuOpen(false);
                 }}
                 className={`
                   w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-left transition-all duration-200
                   ${
-                    activeTab === item.id
+                    location.pathname === item.id
                       ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg'
                       : 'text-stone-600 hover:bg-stone-100'
                   }
@@ -106,7 +101,7 @@ export const Sidebar = ({ activeTab, setActiveTab, onLogout, user }: Props) => {
               >
                 <span className="text-lg">{item.icon}</span>
                 <span className="font-medium">{item.label}</span>
-              </button>
+              </NavLink>
             ))}
           </nav>
         </div>
@@ -114,7 +109,7 @@ export const Sidebar = ({ activeTab, setActiveTab, onLogout, user }: Props) => {
         {/* Logout button */}
         <div className="absolute bottom-6 left-6 right-6">
           <button
-            onClick={onLogout}
+            // onClick={onLogout}
             className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200"
           >
             <span className="text-lg">🚪</span>
