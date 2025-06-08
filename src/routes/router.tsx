@@ -1,7 +1,6 @@
 import { createBrowserRouter } from 'react-router';
-import { RootLayout } from '../RootLayout';
-import { DashboardLayout } from '../layouts';
-import { BearsPage } from '../pages/BearsPage';
+import { RootLayout, DashboardLayout } from '@/layouts';
+import { BearsPage, PeoplePage } from '@/pages';
 
 export const router = createBrowserRouter([
   {
@@ -22,8 +21,8 @@ export const router = createBrowserRouter([
             element: <BearsPage />,
           },
           {
-            path: 'person',
-            // element: <PersonPage />,
+            path: 'people',
+            element: <PeoplePage />,
           },
           {
             path: 'tasks',

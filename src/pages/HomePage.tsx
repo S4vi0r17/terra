@@ -1,4 +1,4 @@
-import { useBearStore } from '../stores/bears/bears.store';
+import { useBearStore } from '@/stores/bears/bears.store';
 
 export default function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());
