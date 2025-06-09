@@ -64,10 +64,9 @@ export const AddTaskForm = ({ taskColumns }: Props) => {
             key={column.status}
             onClick={() => onAddTask(column.status)}
             disabled={!newTask.title.trim()}
-            className={`
-                  flex items-center space-x-2 px-4 py-2 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                  bg-gradient-to-r ${column.color} hover:shadow-lg
-                `}
+            className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-gradient-to-r
+                        ${column.color} hover:shadow-lg
+                      `}
           >
             <span>{column.icon}</span>
             <span>Agregar a {column.title}</span>
