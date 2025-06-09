@@ -1,8 +1,12 @@
 import { create, type StateCreator } from 'zustand';
 import type { Task } from '@/interfaces/tasks/task.interface';
+import { devtools } from 'zustand/middleware';
 
 interface TaskState {
   tasks: Record<string, Task>;
+  draggedTask: string | null;
+
+  setDraggedTask: (taskId: string | null) => void;
 
   getTasksByStatus: (status: 'pending' | 'progress' | 'completed') => Task[];
   addTask: (task: Task) => void;
@@ -10,9 +14,11 @@ interface TaskState {
     taskId: string,
     newStatus: 'pending' | 'progress' | 'completed'
   ) => void;
+  deleteTask: (taskId: string) => void;
 }
 
 const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
+  draggedTask: null,
   tasks: {
     '1': {
       id: '1',
@@ -38,6 +44,10 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
       description: 'This is a new task description.',
       status: 'pending',
     },
+  },
+
+  setDraggedTask: (taskId) => {
+    set({ draggedTask: taskId });
   },
 
   getTasksByStatus: (status) =>
@@ -68,6 +78,13 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
       };
     });
   },
+
+  deleteTask: (taskId) => {
+    set((state) => {
+      const { [taskId]: _, ...remainingTasks } = state.tasks;
+      return { tasks: remainingTasks };
+    });
+  },
 });
 
-export const useTaskStore = create<TaskState>()(taskStateCreator);
+export const useTaskStore = create<TaskState>()(devtools(taskStateCreator));
