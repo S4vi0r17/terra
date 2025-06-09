@@ -1,11 +1,11 @@
 import { create, type StateCreator } from 'zustand';
-import type { Task } from '@/interfaces/tasks/task.interface';
 import { devtools } from 'zustand/middleware';
+import type { Task } from '@/interfaces/tasks/task.interface';
 
 interface TaskState {
   tasks: Record<string, Task>;
-  draggedTask: string | null;
 
+  draggedTask: string | null;
   setDraggedTask: (taskId: string | null) => void;
 
   getTasksByStatus: (status: 'pending' | 'progress' | 'completed') => Task[];
@@ -18,7 +18,6 @@ interface TaskState {
 }
 
 const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
-  draggedTask: null,
   tasks: {
     '1': {
       id: '1',
@@ -46,6 +45,7 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
     },
   },
 
+  draggedTask: null,
   setDraggedTask: (taskId) => {
     set({ draggedTask: taskId });
   },
@@ -81,7 +81,8 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
 
   deleteTask: (taskId) => {
     set((state) => {
-      const { [taskId]: _, ...remainingTasks } = state.tasks;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { [taskId]: __, ...remainingTasks } = state.tasks;
       return { tasks: remainingTasks };
     });
   },
