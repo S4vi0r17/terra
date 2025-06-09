@@ -1,32 +1,43 @@
 import { useState } from 'react';
+import { useTaskStore } from '@/stores/tasks/task.store';
+import type { TaskStatus } from '@/interfaces/tasks/task.interface';
 
 export function TasksPage() {
-  //   const { state, dispatch } = useAppContext()
+  const getTasksByStatus = useTaskStore((state) => state.getTasksByStatus);
+  const addTask = useTaskStore((state) => state.addTask);
+  const changeTaskStatus = useTaskStore((state) => state.changeTaskStatus);
+
   const [newTask, setNewTask] = useState({ title: '', description: '' });
   const [draggedTask, setDraggedTask] = useState<string | null>(null);
 
-  const taskColumns = [
+  const taskColumns: {
+    status: TaskStatus;
+    title: string;
+    color: string;
+    icon: string;
+  }[] = [
     {
-      id: 'pending',
+      status: 'pending',
       title: 'Pendientes',
       color: 'from-red-500 to-rose-500',
       icon: '⏳',
     },
     {
-      id: 'progress',
+      status: 'progress',
       title: 'En Desarrollo',
       color: 'from-yellow-500 to-amber-500',
       icon: '🔄',
     },
     {
-      id: 'completed',
+      status: 'completed',
       title: 'Terminadas',
       color: 'from-green-500 to-emerald-500',
       icon: '✅',
     },
   ];
 
-  const addTask = (status: 'pending' | 'progress' | 'completed') => {
+  const onAddTask = (status: 'pending' | 'progress' | 'completed') => {
+    console.log(`Adding task to ${status}:`, newTask);
     if (newTask.title.trim()) {
       const task = {
         id: Date.now().toString(),
@@ -34,8 +45,8 @@ export function TasksPage() {
         description: newTask.description.trim(),
         status,
       };
-      //   dispatch({ type: "ADD_TASK", payload: task })
-      setNewTask({ title: '', description: '' });
+      setNewTask({ title: '', description: '' }); // Reset form
+      addTask(task);
     }
   };
 
@@ -55,17 +66,10 @@ export function TasksPage() {
   ) => {
     e.preventDefault();
     if (draggedTask) {
-      //   dispatch({
-      //     type: "UPDATE_TASK",
-      //     payload: { id: draggedTask, status: newStatus },
-      //   })
+      changeTaskStatus(draggedTask, newStatus);
       setDraggedTask(null);
     }
   };
-
-  //   const getTasksByStatus = (status: "pending" | "progress" | "completed") => {
-  //     return state.tasks.filter((task) => task.status === status)
-  //   }
 
   return (
     <div className="space-y-8">
@@ -111,8 +115,8 @@ export function TasksPage() {
         <div className="flex flex-wrap gap-3">
           {taskColumns.map((column) => (
             <button
-              key={column.id}
-              //   onClick={() => addTask(column.id as any)}
+              key={column.status}
+              onClick={() => onAddTask(column.status)}
               disabled={!newTask.title.trim()}
               className={`
                 flex items-center space-x-2 px-4 py-2 rounded-xl text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
@@ -129,16 +133,16 @@ export function TasksPage() {
       {/* Task Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {taskColumns.map((column) => {
-          //   const tasks = getTasksByStatus(column.id as any)
+          const tasks = getTasksByStatus(column.status);
           return (
             <div
-              key={column.id}
+              key={column.status}
               className={`
                 bg-white rounded-2xl p-6 border border-stone-200 shadow-sm min-h-96 transition-all duration-200
                 ${draggedTask ? 'border-dashed border-2 border-amber-300' : ''}
               `}
               onDragOver={handleDragOver}
-              //   onDrop={(e) => handleDrop(e, column.id as any)}
+              onDrop={(e) => handleDrop(e, column.status)}
             >
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-bold text-stone-800 flex items-center">
@@ -151,38 +155,54 @@ export function TasksPage() {
                   bg-gradient-to-r ${column.color}
                 `}
                 >
-                  {/* {tasks.length} */}
+                  {tasks.length}
                 </span>
               </div>
 
               <div className="space-y-3">
-                {/* {tasks.map((task) => (
+                {tasks.map((task) => (
                   <div
                     key={task.id}
                     draggable
                     onDragStart={(e) => handleDragStart(e, task.id)}
                     className={`
                       bg-stone-50 rounded-xl p-4 cursor-move hover:bg-stone-100 transition-all duration-200 border border-stone-200
-                      ${draggedTask === task.id ? "opacity-50 scale-95" : "hover:shadow-md"}
+                      ${
+                        draggedTask === task.id
+                          ? 'opacity-50 scale-95'
+                          : 'hover:shadow-md'
+                      }
                     `}
                   >
-                    <h4 className="font-semibold text-stone-800 mb-1">{task.title}</h4>
-                    {task.description && <p className="text-sm text-stone-600">{task.description}</p>}
+                    <h4 className="font-semibold text-stone-800 mb-1">
+                      {task.title}
+                    </h4>
+                    {task.description && (
+                      <p className="text-sm text-stone-600">
+                        {task.description}
+                      </p>
+                    )}
                     <div className="mt-2 flex items-center justify-between">
-                      <span className="text-xs text-stone-400">ID: {task.id}</span>
+                      <span className="text-xs text-stone-400">
+                        ID: {task.id}
+                      </span>
                       <div className="w-2 h-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500"></div>
                     </div>
                   </div>
-                ))} */}
+                ))}
 
-                {/* {tasks.length === 0 && (
+                {tasks.length === 0 && (
                   <div className="text-center py-8">
                     <div className="w-16 h-16 bg-stone-100 rounded-full mx-auto mb-3 flex items-center justify-center">
-                      <span className="text-stone-400 text-2xl">{column.icon}</span>
+                      <span className="text-stone-400 text-2xl">
+                        {column.icon}
+                      </span>
                     </div>
-                    <p className="text-stone-500 text-sm">No hay tareas en {column.title.toLowerCase()}</p>
+                    <p className="text-stone-500 text-sm">
+                      No hay tareas en {column.title.toLowerCase()}
+                    </p>
                   </div>
-                )} */}
+                )}
               </div>
             </div>
           );
