@@ -1,6 +1,13 @@
 import { createBrowserRouter } from 'react-router';
-import { RootLayout, DashboardLayout } from '@/layouts';
-import { HomePage, BearsPage, PeoplePage } from '@/pages';
+import { RootLayout, DashboardLayout, AuthLayout } from '@/layouts';
+import {
+  HomePage,
+  BearsPage,
+  PeoplePage,
+  TasksPage,
+  WeddingPage,
+} from '@/pages';
+import { LoginPage } from '@/pages/LoginPage';
 
 export const router = createBrowserRouter([
   {
@@ -26,23 +33,22 @@ export const router = createBrowserRouter([
           },
           {
             path: 'tasks',
-            // element: <JiraPage />,
+            element: <TasksPage />,
           },
           {
-            path: 'wedding-invitation',
-            // element: <WeddingInvitationPage />,
+            path: 'wedding',
+            element: <WeddingPage />,
           },
         ],
       },
-
       /// Auth Routes
       {
         path: 'auth',
-        // element: <AuthLayout />,
+        element: <AuthLayout />,
         children: [
           {
             path: 'login',
-            // element: <LoginPage />,
+            element: <LoginPage />,
           },
         ],
       },
