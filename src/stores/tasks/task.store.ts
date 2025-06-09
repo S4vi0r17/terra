@@ -1,20 +1,17 @@
 import { create, type StateCreator } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import type { Task } from '@/interfaces/tasks/task.interface';
+import type { Task, TaskStatus } from '@/interfaces/tasks/task.interface';
 
 interface TaskState {
   tasks: Record<string, Task>;
 
   draggedTask: string | null;
-  setDraggedTask: (taskId: string | null) => void;
+  setDraggedTask: (taskId: string) => void;
 
-  getTasksByStatus: (status: 'pending' | 'progress' | 'completed') => Task[];
+  getTasksByStatus: (status: TaskStatus) => Task[];
   addTask: (task: Task) => void;
-  changeTaskStatus: (
-    taskId: string,
-    newStatus: 'pending' | 'progress' | 'completed'
-  ) => void;
+  changeTaskStatus: (taskId: string, newStatus: TaskStatus) => void;
   deleteTask: (taskId: string) => void;
 }
 
@@ -113,5 +110,9 @@ const taskStateCreator: StateCreator<TaskState, [['zustand/immer', never]]> = (
 });
 
 export const useTaskStore = create<TaskState>()(
-  devtools(immer(taskStateCreator))
+  devtools(
+    persist(immer(taskStateCreator), {
+      name: 'task-store',
+    })
+  )
 );
