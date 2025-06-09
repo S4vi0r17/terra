@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router';
 import { RootLayout, DashboardLayout } from '@/layouts';
-import { BearsPage, PeoplePage } from '@/pages';
+import { HomePage, BearsPage, PeoplePage } from '@/pages';
 
 export const router = createBrowserRouter([
   {
@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: 'home',
-            // element: <Dashboard />,
+            element: <HomePage />,
           },
           {
             path: 'bears',

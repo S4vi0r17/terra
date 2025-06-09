@@ -1,13 +1,15 @@
 import { useBearStore } from '@/stores/bears/bears.store';
+import { usePersonStore } from '@/stores/person/person.store';
 
-export default function HomePage() {
+export function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());
+  const people = usePersonStore((state) => state.persons);
 
   const mockRequest = {
     ok: true,
     message: 'Hola Mundo Private',
-    // user: state.user,
-    // userEmail: state.user.email,
+    user: 'Hola Mundo', // Mock user name
+    userEmail: 'hola@mundo.com', // Mock email
     timestamp: new Date().toISOString(),
     status: 'authenticated',
   };
@@ -21,7 +23,7 @@ export default function HomePage() {
     },
     {
       title: 'Personas',
-      //   value: state.people.length,
+      value: people.length,
       icon: '👥',
       color: 'from-green-500 to-emerald-500',
     },
@@ -44,7 +46,7 @@ export default function HomePage() {
       {/* Header */}
       <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
         <h1 className="text-3xl font-bold text-stone-800 mb-2">
-          ¡Bienvenido, {state.user.fullName}! 👋
+          ¡Bienvenido, {mockRequest.user}! 👋
         </h1>
         <p className="text-stone-600">
           Aquí tienes un resumen de tu dashboard Terra
@@ -82,12 +84,12 @@ export default function HomePage() {
           <div>
             <h3 className="text-xl font-bold mb-1">Fecha de la Boda</h3>
             <p className="text-pink-100">
-              {new Date(state.weddingDate).toLocaleDateString('es-ES', {
+              {/* {new Date(state.weddingDate).toLocaleDateString('es-ES', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-              })}
+              })} */}
             </p>
           </div>
         </div>
@@ -111,24 +113,26 @@ export default function HomePage() {
                 <div className="flex justify-between">
                   <span className="text-stone-500">ID:</span>
                   <span className="text-stone-700 font-mono text-xs">
-                    {mockRequest.user.id}
+                    {mockRequest.user}
+                    {/* id  */}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Email:</span>
                   <span className="text-stone-700">
-                    {mockRequest.user.email}
+                    {mockRequest.user}
+                    {/* email */}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Nombre:</span>
                   <span className="text-stone-700">
-                    {mockRequest.user.fullName}
+                    {mockRequest.user}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Estado:</span>
-                  <span
+                  {/* <span
                     className={`px-2 py-1 rounded-full text-xs ${
                       mockRequest.user.isActive
                         ? 'bg-green-100 text-green-700'
@@ -136,19 +140,19 @@ export default function HomePage() {
                     }`}
                   >
                     {mockRequest.user.isActive ? 'Activo' : 'Inactivo'}
-                  </span>
+                  </span> */}
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Roles:</span>
                   <div className="flex space-x-1">
-                    {mockRequest.user.roles.map((role, index) => (
+                    {/* {mockRequest.user.roles.map((role, index) => (
                       <span
                         key={index}
                         className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs"
                       >
                         {role}
                       </span>
-                    ))}
+                    ))} */}
                   </div>
                 </div>
               </div>
