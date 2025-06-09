@@ -1,5 +1,6 @@
 import { create, type StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
+import { immer } from 'zustand/middleware/immer';
 import type { Task } from '@/interfaces/tasks/task.interface';
 
 interface TaskState {
@@ -17,7 +18,10 @@ interface TaskState {
   deleteTask: (taskId: string) => void;
 }
 
-const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
+const taskStateCreator: StateCreator<TaskState, [['zustand/immer', never]]> = (
+  set,
+  get
+) => ({
   tasks: {
     'ba0caae7-e9ea-4f4c-98d7-014be99b22cc': {
       id: 'ba0caae7-e9ea-4f4c-98d7-014be99b22cc',
@@ -53,29 +57,49 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
   getTasksByStatus: (status) =>
     Object.values(get().tasks).filter((task) => task.status === status),
 
+  // Using immer from zustand middleware
   addTask: (task) => {
-    set((state) => ({
-      tasks: {
-        ...state.tasks,
-        [task.id]: task,
-      },
-    }));
+    set((state) => {
+      state.tasks[task.id] = task; // Directly mutate the state
+    });
   },
+
+  /* Using immer(produce) `bun add immer` */
+  // addTask: (task) => {
+  //   set(
+  //     produce((state: TaskState) => {
+  //       state.tasks[task.id] = task;
+  //     })
+  //   );
+  // },
+
+  /* Without immer */
+  // addTask: (task) => {
+  //   set((state) => ({
+  //     tasks: {
+  //       ...state.tasks,
+  //       [task.id]: task,
+  //     },
+  //   }));
+  // },
 
   changeTaskStatus: (taskId, newStatus) => {
     set((state) => {
-      const task = state.tasks[taskId];
-      if (!task) return state; // Task not found
+      // const task = state.tasks[taskId];
+      // if (!task) return state; // Task not found
 
-      return {
-        tasks: {
-          ...state.tasks,
-          [taskId]: {
-            ...task,
-            status: newStatus,
-          },
-        },
-      };
+      // return {
+      //   tasks: {
+      //     ...state.tasks,
+      //     [taskId]: {
+      //       ...task,
+      //       status: newStatus,
+      //     },
+      //   },
+      // };
+
+      // Directly mutate the state using immer
+      state.tasks[taskId].status = newStatus;
     });
   },
 
@@ -88,4 +112,6 @@ const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
   },
 });
 
-export const useTaskStore = create<TaskState>()(devtools(taskStateCreator));
+export const useTaskStore = create<TaskState>()(
+  devtools(immer(taskStateCreator))
+);
