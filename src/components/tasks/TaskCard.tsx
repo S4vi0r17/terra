@@ -42,7 +42,7 @@ export const TaskCard = ({ task }: Props) => {
       </div>
       <button
         onClick={() => onDeleteTask(task.id)}
-        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-100 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-200"
+        className="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-100 text-red-500 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-200 cursor-pointer"
         title="Eliminar tarea"
       >
         ×

@@ -1,9 +1,12 @@
+import { useShallow } from 'zustand/shallow';
 import { useBearStore } from '@/stores/bears/bears.store';
 import { usePersonStore } from '@/stores/person/person.store';
+import { useTaskStore } from '@/stores/tasks/task.store';
 
 export function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());
   const people = usePersonStore((state) => state.persons);
+  const tasks = useTaskStore(useShallow((state) => Object.values(state.tasks)));
 
   const mockRequest = {
     ok: true,
@@ -29,7 +32,7 @@ export function HomePage() {
     },
     {
       title: 'Tareas',
-      //   value: state.tasks.length,
+      value: tasks.length,
       icon: '✅',
       color: 'from-purple-500 to-violet-500',
     },
@@ -126,9 +129,7 @@ export function HomePage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Nombre:</span>
-                  <span className="text-stone-700">
-                    {mockRequest.user}
-                  </span>
+                  <span className="text-stone-700">{mockRequest.user}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Estado:</span>
