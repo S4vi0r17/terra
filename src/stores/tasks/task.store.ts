@@ -19,26 +19,26 @@ interface TaskState {
 
 const taskStateCreator: StateCreator<TaskState> = (set, get) => ({
   tasks: {
-    '1': {
-      id: '1',
+    'ba0caae7-e9ea-4f4c-98d7-014be99b22cc': {
+      id: 'ba0caae7-e9ea-4f4c-98d7-014be99b22cc',
       title: 'Sample Task',
       description: 'This is a sample task description.',
       status: 'pending',
     },
-    '2': {
-      id: '2',
+    'b5ed673a-3329-44c7-b423-dfa3c0144c04': {
+      id: 'b5ed673a-3329-44c7-b423-dfa3c0144c04',
       title: 'Another Task',
       description: 'This is another task description.',
       status: 'progress',
     },
-    '3': {
-      id: '3',
+    '09860c14-dd76-445b-97b5-0e4ab83203f2': {
+      id: '09860c14-dd76-445b-97b5-0e4ab83203f2',
       title: 'Completed Task',
       description: 'This task is already completed.',
       status: 'completed',
     },
-    '4': {
-      id: '4',
+    'e03428ce-238f-4d34-a7fc-5e11caef0030': {
+      id: 'e03428ce-238f-4d34-a7fc-5e11caef0030',
       title: 'New Task',
       description: 'This is a new task description.',
       status: 'pending',

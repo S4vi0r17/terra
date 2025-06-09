@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import { useTaskStore } from '@/stores/tasks/task.store';
 import type { TaskStatus } from '@/interfaces/tasks/task.interface';
 
@@ -19,7 +20,7 @@ export const AddTaskForm = ({ taskColumns }: Props) => {
   const onAddTask = (status: 'pending' | 'progress' | 'completed') => {
     if (newTask.title.trim()) {
       const task = {
-        id: Date.now().toString(),
+        id: uuid(),
         title: newTask.title.trim(),
         description: newTask.description.trim(),
         status,
