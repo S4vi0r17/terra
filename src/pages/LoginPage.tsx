@@ -1,4 +1,4 @@
-import { LoginFrom } from '@/components/auth/LoginFrom';
+import { LoginFrom } from '@/components/auth';
 
 export function LoginPage() {
   return (

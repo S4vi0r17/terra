@@ -1,7 +1,9 @@
-import { BearCounters } from '@/components/bears/BearCounters';
-import { BearActions } from '@/components/bears/BearActions';
-import { BearTypeSelector } from '@/components/bears/BearTypeSelector';
-import { BearList } from '@/components/bears/BearList';
+import {
+  BearActions,
+  BearCounters,
+  BearList,
+  BearTypeSelector,
+} from '@/components/bears';
 
 export function BearsPage() {
   const bearTypes = [

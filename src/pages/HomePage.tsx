@@ -1,7 +1,5 @@
 import { useShallow } from 'zustand/shallow';
-import { useBearStore } from '@/stores/bears/bears.store';
-import { usePersonStore } from '@/stores/person/person.store';
-import { useTaskStore } from '@/stores/tasks/task.store';
+import { useBearStore, usePersonStore, useTaskStore } from '@/stores';
 
 export function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());

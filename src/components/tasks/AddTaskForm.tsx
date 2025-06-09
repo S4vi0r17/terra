@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { useTaskStore } from '@/stores/tasks/task.store';
-import type { TaskStatus } from '@/interfaces/tasks/task.interface';
+import { useTaskStore } from '@/stores';
+import type { TaskStatus } from '@/interfaces';
 
 interface Props {
   taskColumns: {

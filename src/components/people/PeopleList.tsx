@@ -1,4 +1,4 @@
-import { usePersonStore } from '@/stores/person/person.store';
+import { usePersonStore } from '@/stores';
 
 export const PeopleList = () => {
   const people = usePersonStore((state) => state.persons);

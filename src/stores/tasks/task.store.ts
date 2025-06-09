@@ -1,13 +1,13 @@
 import { create, type StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import type { Task, TaskStatus } from '@/interfaces/tasks/task.interface';
+import type { Task, TaskStatus } from '@/interfaces';
 
 interface TaskState {
   tasks: Record<string, Task>;
 
   draggedTask: string | null;
-  setDraggedTask: (taskId: string) => void;
+  setDraggedTask: (taskId: string | null) => void;
 
   getTasksByStatus: (status: TaskStatus) => Task[];
   addTask: (task: Task) => void;

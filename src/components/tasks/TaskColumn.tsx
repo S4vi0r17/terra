@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import classNames from 'classnames';
-import { useTaskStore } from '@/stores/tasks/task.store';
 import { TaskCard } from './TaskCard';
-import type { Task, TaskStatus } from '@/interfaces/tasks/task.interface';
+import { useTaskStore } from '@/stores';
+import type { Task, TaskStatus } from '@/interfaces';
 
 interface Props {
   title: string;
@@ -30,10 +30,7 @@ export const TaskColumn = ({ title, icon, color, tasks, status }: Props) => {
     setOnDragOver(false);
   };
 
-  const handleDrop = (
-    e: React.DragEvent,
-    newStatus: 'pending' | 'progress' | 'completed'
-  ) => {
+  const handleDrop = (e: React.DragEvent, newStatus: TaskStatus) => {
     e.preventDefault();
     if (draggedTask) {
       changeTaskStatus(draggedTask, newStatus);

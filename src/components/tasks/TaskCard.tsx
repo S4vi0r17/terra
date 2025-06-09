@@ -1,5 +1,5 @@
-import { useTaskStore } from '@/stores/tasks/task.store';
-import type { Task } from '@/interfaces/tasks/task.interface';
+import type { Task } from '@/interfaces';
+import { useTaskStore } from '@/stores';
 
 interface Props {
   task: Task;

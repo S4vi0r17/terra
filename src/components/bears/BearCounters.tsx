@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/shallow';
-import type { BearType } from '@/interfaces/bears/bear.interface';
-import { useBearStore } from '@/stores/bears/bears.store';
+import { useBearStore } from '@/stores';
+import type { BearType } from '@/interfaces';
 
 interface Props {
   bearTypes: { type: BearType; name: string; icon: string; color: string }[];

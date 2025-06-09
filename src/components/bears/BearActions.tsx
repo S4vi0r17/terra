@@ -1,4 +1,4 @@
-import { useBearStore } from '@/stores/bears/bears.store';
+import { useBearStore } from '@/stores';
 
 export const BearActions = () => {
   const addBear = useBearStore((state) => state.addBear);

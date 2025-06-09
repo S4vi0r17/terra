@@ -1,5 +1,5 @@
-import { usePersonStore } from '@/stores/person/person.store';
-import type { Person } from '@/interfaces/persons/person.interface';
+import { usePersonStore } from '@/stores';
+import type { Person } from '@/interfaces';
 
 export const PersonForm = () => {
   const firstName = usePersonStore((state) => state.firstName);
