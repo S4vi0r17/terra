@@ -1,10 +1,24 @@
 import { useShallow } from 'zustand/shallow';
-import { useBearStore, usePersonStore, useTaskStore } from '@/stores';
+import {
+  useBearStore,
+  usePersonStore,
+  useTaskStore,
+  useWeddingBoundStore,
+} from '@/stores';
 
 export function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());
   const people = usePersonStore((state) => state.persons);
   const tasks = useTaskStore(useShallow((state) => Object.values(state.tasks)));
+  const guests = useWeddingBoundStore((state) => state.guests);
+
+  let totalGuests: number = 0;
+
+  for (const guest of guests) {
+    if (guest.attendance === 'yes') {
+      totalGuests += guest.guestCount;
+    }
+  }
 
   const mockRequest = {
     ok: true,
@@ -36,7 +50,7 @@ export function HomePage() {
     },
     {
       title: 'Invitados Boda',
-      //   value: state.weddingGuests.length,
+      value: totalGuests,
       icon: '💒',
       color: 'from-pink-500 to-rose-500',
     },
