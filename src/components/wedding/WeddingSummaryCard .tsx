@@ -1,6 +1,24 @@
+import { useWeddingBoundStore } from '@/stores';
+
 export const WeddingSummaryCard = () => {
-  return {
-    /* {stats.yes > 0 && (
+  const weddingGuests = useWeddingBoundStore((state) => state.guests);
+
+  const getAttendanceStats = () => {
+    const stats = { yes: 0, maybe: 0, no: 0, totalGuests: 0 };
+    weddingGuests.forEach((guest) => {
+      stats[guest.attendance]++;
+      if (guest.attendance === 'yes') {
+        stats.totalGuests += guest.guestCount;
+      }
+    });
+    return stats;
+  };
+
+  const stats = getAttendanceStats();
+
+  return (
+    <>
+      {stats.yes > 0 && (
         <div className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-6 border border-emerald-200">
           <h3 className="text-lg font-bold text-emerald-800 mb-4 flex items-center">
             <span className="mr-2">📊</span>
@@ -17,12 +35,16 @@ export const WeddingSummaryCard = () => {
             </div>
             <div className="text-center">
               <p className="text-2xl font-bold">
-                {stats.yes > 0 ? Math.round((stats.yes / state.weddingGuests.length) * 100) : 0}%
+                {stats.yes > 0
+                  ? Math.round((stats.yes / weddingGuests.length) * 100)
+                  : 0}
+                %
               </p>
               <p className="text-sm">Tasa de confirmación</p>
             </div>
           </div>
         </div>
-      )} */
-  };
+      )}
+    </>
+  );
 };

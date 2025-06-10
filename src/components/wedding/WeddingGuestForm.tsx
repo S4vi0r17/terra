@@ -178,7 +178,7 @@ export const WeddingGuestForm = () => {
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 px-4 rounded-xl font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-lg"
+          className="w-full bg-gradient-to-r from-pink-500 to-rose-500 text-white py-3 px-4 rounded-xl font-medium hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-lg cursor-pointer"
         >
           Registrar Invitado
         </button>
