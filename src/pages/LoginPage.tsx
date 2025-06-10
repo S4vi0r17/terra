@@ -1,23 +1,39 @@
-import { LoginFrom } from '@/components/auth';
+import {
+  AuthBackground,
+  AuthDemoCredentials,
+  AuthErrorMessage,
+  AuthFeatures,
+  AuthFooter,
+  AuthHeader,
+  LoginFrom,
+} from '@/components/auth';
 
 export function LoginPage() {
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md border border-stone-200">
-      <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-          <span className="text-white font-bold text-xl">T</span>
+    <>
+      <AuthBackground />
+      <div className="relative z-10 w-full max-w-5xl">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+          <div className="lg:col-span-3 bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20">
+            <AuthHeader />
+
+            {/* Mensaje de error */}
+            <AuthErrorMessage />
+
+            {/* Formulario de inicio de sesión */}
+            <LoginFrom />
+
+            {/* Credenciales de ejemplo */}
+            <AuthDemoCredentials />
+          </div>
+
+          <div className="lg:col-span-2 bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-8 border border-white/20 flex flex-col justify-between">
+            <AuthFeatures />
+
+            <AuthFooter />
+          </div>
         </div>
-        <h1 className="text-2xl font-bold text-stone-800 mb-2">Terra</h1>
-        <p className="text-stone-600">Dashboard Minimalista</p>
       </div>
-
-      <LoginFrom />
-
-      <div className="mt-6 text-center">
-        <p className="text-sm text-stone-500">
-          Demo: cualquier email y contraseña
-        </p>
-      </div>
-    </div>
+    </>
   );
 }
