@@ -1,13 +1,12 @@
-import { useAuthStore } from '@/stores';
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
+import { useAuthStore } from '@/stores';
 
 export const Sidebar = () => {
   const location = useLocation();
 
+  const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-
-  const user = { fullName: 'John Doe', email: 'asd@asd.com' };
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -69,7 +68,7 @@ export const Sidebar = () => {
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-medium text-sm">
-                  {user.fullName
+                  {user?.fullName
                     .split(' ')
                     .map((n) => n[0])
                     .join('')}
@@ -77,9 +76,9 @@ export const Sidebar = () => {
               </div>
               <div>
                 <p className="font-medium text-stone-800 text-sm">
-                  {user.fullName}
+                  {user?.fullName}
                 </p>
-                <p className="text-xs text-stone-500">{user.email}</p>
+                <p className="text-xs text-stone-500">{user?.email}</p>
               </div>
             </div>
           </div>
