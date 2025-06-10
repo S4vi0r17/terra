@@ -1,8 +1,11 @@
+import { useAuthStore } from '@/stores';
 import { useState } from 'react';
 import { NavLink, useLocation } from 'react-router';
 
 export const Sidebar = () => {
   const location = useLocation();
+
+  const logout = useAuthStore((state) => state.logout);
 
   const user = { fullName: 'John Doe', email: 'asd@asd.com' };
 
@@ -109,8 +112,8 @@ export const Sidebar = () => {
         {/* Logout button */}
         <div className="absolute bottom-6 left-6 right-6">
           <button
-            // onClick={onLogout}
-            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200"
+            onClick={logout}
+            className="w-full flex items-center space-x-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all duration-200 cursor-pointer"
           >
             <span className="text-lg">🚪</span>
             <span className="font-medium">Cerrar Sesión</span>

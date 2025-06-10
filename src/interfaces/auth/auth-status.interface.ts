@@ -1,5 +1,1 @@
-export type AuthStatus =
-  | 'authenticated'
-  | 'unauthenticated'
-  | 'loading'
-  | 'error';
+export type AuthStatus = 'authenticated' | 'unauthenticated' | 'pending';

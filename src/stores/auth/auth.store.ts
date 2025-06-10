@@ -19,14 +19,14 @@ export interface AuthState {
 }
 
 export const AuthStateCreator: StateCreator<AuthState> = (set) => ({
-  status: 'authenticated',
+  status: 'unauthenticated',
   token: undefined,
   user: undefined,
   isLoading: false,
   errorMessage: null,
 
   login: async (email: string, password: string) => {
-    set({ isLoading: true, status: 'loading' });
+    set({ isLoading: true, status: 'pending' });
     try {
       const { token, ...user } = await AuthService.login(email, password);
       set({ status: 'authenticated', token, user });
@@ -45,6 +45,7 @@ export const AuthStateCreator: StateCreator<AuthState> = (set) => ({
     set({ errorMessage });
   },
   checkAuthStatus: async () => {
+    set({ status: 'pending', isLoading: true });
     try {
       const { token, ...user } = await AuthService.checkAuthStatus();
       set({ status: 'authenticated', token, user });
@@ -52,6 +53,8 @@ export const AuthStateCreator: StateCreator<AuthState> = (set) => ({
       set({ status: 'unauthenticated', token: undefined, user: undefined });
       console.log(error);
       throw new Error('Unauthorized');
+    } finally {
+      set({ isLoading: false });
     }
   },
   logout: () => {
