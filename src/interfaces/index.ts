@@ -4,3 +4,4 @@ export * from './tasks/task.interface';
 export * from './wedding/wedding-guest.interface';
 export * from './auth/user.interface';
 export * from './auth/auth-status.interface';
+export * from './auth/private-response.interface';

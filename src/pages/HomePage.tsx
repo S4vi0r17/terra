@@ -1,16 +1,24 @@
+import { useEffect, useState } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { tesloApi } from '@/apis';
 import {
+  useAuthStore,
   useBearStore,
   usePersonStore,
   useTaskStore,
   useWeddingBoundStore,
 } from '@/stores';
+import type { PrivateResponse } from '@/interfaces';
 
 export function HomePage() {
   const totalBears = useBearStore((state) => state.totalBears());
   const people = usePersonStore((state) => state.persons);
   const tasks = useTaskStore(useShallow((state) => Object.values(state.tasks)));
   const guests = useWeddingBoundStore((state) => state.guests);
+  const eventDateValue = useWeddingBoundStore((state) => state.eventDateValue);
+  const status = useAuthStore((state) => state.status);
+
+  const [mockRequest, setMockRequest] = useState<PrivateResponse>();
 
   let totalGuests: number = 0;
 
@@ -20,14 +28,17 @@ export function HomePage() {
     }
   }
 
-  const mockRequest = {
-    ok: true,
-    message: 'Hola Mundo Private',
-    user: 'Hola Mundo', // Mock user name
-    userEmail: 'hola@mundo.com', // Mock email
-    timestamp: new Date().toISOString(),
-    status: 'authenticated',
-  };
+  useEffect(() => {
+    tesloApi
+      .get<PrivateResponse>('/auth/private')
+      .then((response) => {
+        setMockRequest(response.data);
+        console.log('API request successful:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error in API request:', error);
+      });
+  }, []);
 
   const stats = [
     {
@@ -61,7 +72,7 @@ export function HomePage() {
       {/* Header */}
       <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-sm">
         <h1 className="text-3xl font-bold text-stone-800 mb-2">
-          ¡Bienvenido, {mockRequest.user}! 👋
+          ¡Bienvenido, {mockRequest?.user.fullName || 'Usuario'}! 👋
         </h1>
         <p className="text-stone-600">
           Aquí tienes un resumen de tu dashboard Terra
@@ -99,12 +110,12 @@ export function HomePage() {
           <div>
             <h3 className="text-xl font-bold mb-1">Fecha de la Boda</h3>
             <p className="text-pink-100">
-              {/* {new Date(state.weddingDate).toLocaleDateString('es-ES', {
+              {new Date(eventDateValue).toLocaleDateString('es-ES', {
                 weekday: 'long',
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-              })} */}
+              })}
             </p>
           </div>
         </div>
@@ -128,44 +139,44 @@ export function HomePage() {
                 <div className="flex justify-between">
                   <span className="text-stone-500">ID:</span>
                   <span className="text-stone-700 font-mono text-xs">
-                    {mockRequest.user}
-                    {/* id  */}
+                    {mockRequest?.user.id || 'N/A'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Email:</span>
                   <span className="text-stone-700">
-                    {mockRequest.user}
-                    {/* email */}
+                    {mockRequest?.user.email || 'N/A'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Nombre:</span>
-                  <span className="text-stone-700">{mockRequest.user}</span>
+                  <span className="text-stone-700">
+                    {mockRequest?.user.fullName || 'N/A'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Estado:</span>
-                  {/* <span
+                  <span
                     className={`px-2 py-1 rounded-full text-xs ${
-                      mockRequest.user.isActive
+                      mockRequest?.user.isActive
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
                     }`}
                   >
-                    {mockRequest.user.isActive ? 'Activo' : 'Inactivo'}
-                  </span> */}
+                    {mockRequest?.user.isActive ? 'Activo' : 'Inactivo'}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Roles:</span>
                   <div className="flex space-x-1">
-                    {/* {mockRequest.user.roles.map((role, index) => (
+                    {mockRequest?.user.roles.map((role, index) => (
                       <span
                         key={index}
                         className="px-2 py-1 bg-amber-100 text-amber-700 rounded-full text-xs"
                       >
                         {role}
                       </span>
-                    ))} */}
+                    ))}
                   </div>
                 </div>
               </div>
@@ -183,27 +194,27 @@ export function HomePage() {
                   <span className="text-stone-500">Estado:</span>
                   <span
                     className={`px-2 py-1 rounded-full text-xs ${
-                      mockRequest.ok
+                      mockRequest?.ok
                         ? 'bg-green-100 text-green-700'
                         : 'bg-red-100 text-red-700'
                     }`}
                   >
-                    {mockRequest.ok ? 'Conectado' : 'Desconectado'}
+                    {mockRequest?.ok ? 'Conectado' : 'Desconectado'}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Mensaje:</span>
-                  <span className="text-stone-700">{mockRequest.message}</span>
+                  <span className="text-stone-700">{mockRequest?.message}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Timestamp:</span>
                   <span className="text-stone-700 font-mono text-xs">
-                    {new Date(mockRequest.timestamp).toLocaleString('es-ES')}
+                    {new Date().toLocaleString('es-ES')}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-stone-500">Autenticación:</span>
-                  <span className="text-stone-700">{mockRequest.status}</span>
+                  <span className="text-stone-700">{status}</span>
                 </div>
               </div>
             </div>
