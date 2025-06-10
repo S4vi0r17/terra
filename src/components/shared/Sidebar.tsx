@@ -21,7 +21,7 @@ export const Sidebar = () => {
       {/* Mobile menu button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 bg-white p-2 rounded-xl shadow-lg border border-stone-200"
+        className="lg:hidden fixed top-4 right-4 z-50 bg-white p-2 rounded-xl shadow-lg border border-stone-200 cursor-pointer"
       >
         <div className="w-6 h-6 flex flex-col justify-center space-y-1">
           <div className="w-full h-0.5 bg-stone-600"></div>
