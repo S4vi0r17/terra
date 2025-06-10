@@ -4,7 +4,7 @@ export function RootLayout() {
   const { pathname } = useLocation();
 
   if (pathname === '/') {
-    return <Navigate to="/dashboard" />;
+    return <Navigate to="/dashboard/home" />;
   }
 
   return (
