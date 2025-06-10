@@ -1,6 +1,7 @@
 import { create, type StateCreator } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import { logger } from '../middlewares/logger.middleware';
+import { useWeddingBoundStore } from '../wedding';
 import type { Person } from '@/interfaces/persons/person.interface';
 
 interface PersonState {
@@ -60,3 +61,11 @@ export const usePersonStore = create<PersonState & PersonActions>()(
     )
   )
 );
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+usePersonStore.subscribe((state, _prevState) => {
+  const { firstName, lastName } = state;
+
+  useWeddingBoundStore.getState().setFirstName(firstName);
+  useWeddingBoundStore.getState().setLastName(lastName);
+});
