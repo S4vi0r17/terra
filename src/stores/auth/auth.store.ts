@@ -16,6 +16,8 @@ export interface AuthState {
   setErrorMessage: (errorMessage: string | null) => void;
   checkAuthStatus: () => Promise<void>;
   logout: () => void;
+
+  
 }
 
 export const AuthStateCreator: StateCreator<AuthState> = (set) => ({
