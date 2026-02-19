@@ -67,6 +67,8 @@ bun install
 
 ### 3. Levantar el Proyecto con Docker
 
+La imagen utilizada es [`klerith/teslo-shop-cors`](https://hub.docker.com/r/klerith/teslo-shop-cors).
+
 ```sh
 docker compose up -d
 ```
