@@ -5,8 +5,11 @@ services:
     image: klerith/teslo-shop-cors:latest
     depends_on:
       - db
-    ports:
-      - ${PORT}:${PORT}
+    # Se quita porque lo trabajamos internamente
+    # ports:
+    #   - ${PORT}:${PORT}
+    expose:
+      - ${PORT}
     environment:
       APP_VERSION: ${APP_VERSION}
       STAGE: ${STAGE}
@@ -22,8 +25,8 @@ services:
   db:
     image: postgres:15.2
     restart: always
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
